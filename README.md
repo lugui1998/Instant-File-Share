@@ -30,7 +30,7 @@ npm run setup
 
 ## Usage
 
-Right click on any file and select "Copy SHare URL".
+Right click on any file and select "Copy Share URL".
 The URL will be copied to your clipboard.
 
 ## TODO
