@@ -6,7 +6,7 @@
   "scripts": {
     "setup": "npm run setup:server & npm run setup:command",
     "setup:server": "cd server & npm run build:install & cd ..",
-    "setup:command": ".\\setup.bat & cd comamnd & npm ci"
+    "setup:command": ".\\setup.bat & cd command & npm ci"
   },
   "repository": {
     "type": "git",
