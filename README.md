@@ -15,7 +15,7 @@ It is a standalone solution which is focused on simplicity and ease of use and n
 ## Installation on Windows
 
 - Before anything else be sure to have [Node.js](https://nodejs.org/en/) installed and running propperly.
-- Start a Terminal as **administrator** (needed for adding the registry key for the context menu entry) and run the following command:
+- Start a Terminal as **administrator** (needed for adding the registry key for the context menu entry), vanigate to the project's directory and run the following command:
 
 ```
 npm run setup
