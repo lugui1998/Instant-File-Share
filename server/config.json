@@ -1,0 +1,16 @@
+{
+    "databasePath": "../data/database.json",
+    "cleanupInterval": 10,
+    "fileServer":{
+        "port": 8020,
+        "baseRoute": "/",
+        "maxTimesServed": 0,
+        "maxInactiveTime": 86400000,
+        "maxAge": 2592000000
+    },
+    "localAPI":{
+        "port": 8021
+    }
+    
+    
+}
