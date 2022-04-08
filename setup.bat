@@ -1,5 +1,6 @@
 where node > tmpFile
-SET /p node_path= < tmpFile
+SET /p node_path= < tmpFile 
+DEL tmpFile
 
 SET mypath=%~dp0
 set copyPath=%mypath%command\copy.js
