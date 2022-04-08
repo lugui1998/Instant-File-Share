@@ -6,6 +6,8 @@ const crypto = require('crypto');
 const ipSource = `https://api.ipify.org/?format=text`;
 const localServerPort = 8021;
 
+const urlPort = 80;
+
 
 (async () => {
     // get the file path from argv
@@ -14,7 +16,15 @@ const localServerPort = 8021;
 
     // grab the IP and generate the URL
     const ip = await getIP();
-    const url = `http://${ip}/${fileData.routeName}`;
+
+
+    let url = `http://${ip}`;
+
+    if(urlPort != 80) {
+        url += `:${urlPort}`;
+    }
+
+    url += `/${fileData.routeName}`;
 
     await ncp.copy(url);
 })();
