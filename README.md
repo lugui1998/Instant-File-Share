@@ -2,7 +2,7 @@
 
 Instant File Share is a project that allows users to share files by generating a URL with a single click on the context menu of any file.
 
-It is a standalone solution which is focused on simplicity and ease of use and not on security (yet). Hence why it uses HTTP instead of HTTPS by defualt.
+It is a standalone solution which is focused on simplicity and ease of use and not on security (yet). Hence why it uses HTTP instead of HTTPS by default.
 
 
 
