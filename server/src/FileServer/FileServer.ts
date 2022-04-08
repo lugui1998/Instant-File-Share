@@ -18,13 +18,18 @@ export default class FileServer {
     public serveFile(route: string, filePath: string) {
         // replace "\\ and \\" with "/"
         filePath = filePath.replace(/\\/g, '/');
-        const fileName = filePath.split('/').pop();
+        let fileName = filePath.split('/').pop();
 
-        this.app.get(route, (req, res) => {
-            res.set('Content-disposition', `attachment; filename=${fileName}`);
-            res.sendFile(filePath);
-            this.emit('serve', { route, filePath, req });
-        });
+        if(fileName) {
+            // remove characters that are not allowed in a header
+            fileName = fileName.replace(/[^a-zA-Z0-9-_\.]/g, '');
+
+            this.app.get(route, (req, res) => {
+                res.set('Content-disposition', `attachment; filename=${fileName}`);
+                res.sendFile(filePath);
+                this.emit('serve', { route, filePath, req });
+            });
+        }
     }
 
     public removeRoute(route: string) {
