@@ -1,6 +1,7 @@
 {
   "type": "module",
   "scripts": {
+    "build": "tsc",
     "start:dev": "npx tsc & nodemon ./dist/server.js"
   },
   "devDependencies": {
