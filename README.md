@@ -2,6 +2,9 @@
 
 Instant File Share is a project that allows users to share files by generating a URL with a single click on the context menu of any file.
 
+It is a Standalone solution which is focused on simplicity and ease of use. and **NOT** on security. Hence why it uses HTTP instead of HTTPS by defualt.
+
+
 
 ## Requirements
 
@@ -24,3 +27,14 @@ npm run setup
 
 - You can change the port in the `config.json` file.
 - if you forward a port different than 80, you will need to change the `copy.js` file.
+
+## Usage
+
+Right click on any file and select "Copy SHare URL".
+The URL will be copied to your clipboard.
+
+## TODO
+
+- Add support for Proxy.
+- Add supoort for HTTPS.
+- Add support for Cloudflare Workers proxy.
