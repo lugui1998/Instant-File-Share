@@ -4,6 +4,8 @@ Instant File Share is a project that allows users to share files by generating a
 
 It is a standalone solution which is focused on simplicity and ease of use and not on security (yet). Hence why it uses HTTP instead of HTTPS by default.
 
+This works by setting up a http server on the local machine and then serving the file on a randomly generated route. Forwarding the port is necessary so requests to the generated URL are not blocked by the router.
+
 
 
 ## Requirements
