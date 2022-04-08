@@ -1,0 +1,21 @@
+{
+  "name": "instant-file-share",
+  "version": "1.0.0",
+  "description": "Generate a URL for any file on your machine.",
+  "main": "index.js",
+  "scripts": {
+    "setup": "npm run setup:server & npm run setup:command",
+    "setup:server": "cd server & npm run build:install & cd ..",
+    "setup:command": ".\\setup.bat & cd comamnd & npm ci"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lugui1998/Instant-File-Share.git"
+  },
+  "author": "lugui",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lugui1998/Instant-File-Share/issues"
+  },
+  "homepage": "https://github.com/lugui1998/Instant-File-Share#readme"
+}
