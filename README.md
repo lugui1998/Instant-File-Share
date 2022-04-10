@@ -40,7 +40,7 @@ This part assumes you have your domain already setup with Cloudflare.
 - FIll the data of the worker replacing:
 ``ZONE_HERE`` with the zone ID of the A record.
 ``SUBDOMAIN_HERE`` with the subdomain of the A record.
-``YOUR_HASH_HERE`` with the sha256 hash of a string of your choice.
+``YOUR_HASH_HERE`` with the [sha256](https://emn178.github.io/online-tools/sha256.html) hash of a string of your choice.
 ``SUBDOMAIN_ID_HERE`` with the ID of the A record.
 ``YOUR_EMAIL_HERE`` with your email address.
 ``YOUR_API_KEY_HERE`` with your Cloudflare API key.
