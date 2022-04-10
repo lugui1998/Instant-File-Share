@@ -34,13 +34,44 @@ npm run setup
 
 This part assumes you have your domain already setup with Cloudflare.
 
-- Create a subdomain for your project (or not)
+### DDNS Setup
+- Create a A record subdomain for the DDNS (e.g. `ip`) with proxy status **DISABLED**.
+- Create a Worker with the contents of the ``workers/ddns.js`` file.
+- FIll the data of the worker replacing:
+``ZONE_HERE`` with the zone ID of the A record.
+``SUBDOMAIN_HERE`` with the subdomain of the A record.
+``YOUR_HASH_HERE`` with the sha256 hash of a string of your choice.
+``SUBDOMAIN_ID_HERE`` with the ID of the A record.
+``YOUR_EMAIL_HERE`` with your email address.
+``YOUR_API_KEY_HERE`` with your Cloudflare API key.
+It hsould look something like this:
+```JS
+const API = 'https://api.cloudflare.com/client/v4/' +
+  'zones/6edsx0986s0dd7sf60s78dhf0sdfb/';
+const SUBDOMAINS = [
+  {
+    domain: 'ip',
+    key: 'a8s7dfg57as6d5gh87asd4h8asd4h86a5sd4h9qsd67rgh7a6sdh9asd6h4',
+    id: '5hfd6s5d8fh6sad8afhj67486',
+  },
+];
+
+const AUTH = {
+    email: 'example@example.',
+    key: '4sd7f685h43s87d56fhasdfgsad95'
+}
+```
+- To finish, fill `ddns` entry of the config.json file with the URL of your Worker and the password you hashed above.
+
+### Proxy Setup
+
+- Create a subdomain for the proxy, this will be the URL you send to people (e.g. `send`)
 - Set up a Worker with the contents of `workers/proxy.js`
-- Edit the Worker's hostname to include its url and port it is going to forward the requests.
-- Save it, assign to the domain or subdomain you created and enable it.
+- Edit thescript's hostname to include its url and port it is going to forward the requests.
+- Save and assign it to the subdomain you created.
 - Generate a new certificate for the domain.
-- Save the certificate files on the project's directory (recommended to keep them in a separate directory such as `data/cert/`).
-- Fill the data of the cert and key files in the `config.json` file.
+- Save the certificate file on your computer. (Preferably on the projects data folder)
+- Fill the path of the cert and key files in the `config.json` file.
 
 
 ## Usage

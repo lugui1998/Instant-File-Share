@@ -1,7 +1,8 @@
 import * as fs from 'fs';
 import { Low, JSONFile } from 'lowdb';
-import FileServer from './FileServer/FileServer.js';
+import axios from 'axios';
 
+import FileServer from './FileServer/FileServer.js';
 import LocalAPI from './LocalAPI/LocalAPI.js';
 
 const Config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
@@ -164,8 +165,17 @@ let localAPI: LocalAPI;
 
         }, Config.cleanupInterval * 1000 * 60);
 
-
-
+        if(Config.ddns.url && Config.ddns.auth){
+            // make periodic requests to the DDNS server
+            // pass X-Auth as a header
+            setInterval(async () => {
+               await axios.get(Config.ddns.url, {
+                    headers: {
+                        'X-Auth': Config.ddns.auth
+                    }
+                });
+            });
+        }
         
     } catch (e) {
         console.log(e);

@@ -12,5 +12,10 @@
     },
     "localAPI":{
         "port": 8021
+    },
+    "ddns": {
+        "url": "",
+        "auth": "",
+        "interval": 10000
     }
 }
