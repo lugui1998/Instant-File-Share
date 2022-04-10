@@ -3,11 +3,7 @@ const ncp = require("copy-paste");
 const request = require('request');
 const crypto = require('crypto');
 
-const ipSource = `https://api.ipify.org/?format=text`;
-const localServerPort = 8021;
-
-const urlPort = 80;
-const customDomain = 'https://send.lugui.in';
+const Config = require('./config.json');
 
 
 (async () => {
@@ -21,12 +17,12 @@ const customDomain = 'https://send.lugui.in';
 
     let url = `http://${ip}`;
 
-    if(customDomain){
-        url = customDomain;
+    if(Config.customDomain){
+        url = Config.customDomain;
     }
 
-    if(urlPort != 80) {
-        url += `:${urlPort}`;
+    if(Config.urlPort != 80) {
+        url += `:${Config.urlPort}`;
     }
 
     url += `/${fileData.routeName}`;
@@ -38,7 +34,7 @@ const customDomain = 'https://send.lugui.in';
 function requestFileServe(filePath) {
     return new Promise((resolve, reject) => {
         request.post(
-            `http://localhost:${localServerPort}/serve`,
+            `http://localhost:${Config.localServerPort}/serve`,
             { json: { filePath: filePath } },
             function (error, response, body) {
                 if (!error && response.statusCode == 200) {
@@ -55,7 +51,7 @@ function getIP() {
     // get the IP from ipSource
     // assumes it is plain text
     return new Promise((resolve, reject) => {
-        request(ipSource, (error, response, body) => {
+        request(Config.ipSource, (error, response, body) => {
             if (error) {
                 reject(error);
             } else {

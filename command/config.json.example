@@ -1,0 +1,7 @@
+{
+    "ipSource": "https://api.ipify.org/?format=text",
+    "localServerPort": 8021,
+    "urlPort": 80,
+    "customDomain": ""
+
+}
