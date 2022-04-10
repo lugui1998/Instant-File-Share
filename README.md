@@ -27,8 +27,8 @@ npm run setup
 
 ## Notes
 
-- You can change the port in the `config.json` file.
-- if you forward a port different than 80, you will need to change the `copy.js` file.
+- You can change the port in the `server/config.json` file.
+- if you forward a port different than 80, you will need to change the `command/config.json` file.
 
 ## Advanced: Cloudflare Setup
 
@@ -61,7 +61,7 @@ const AUTH = {
     key: '4sd7f685h43s87d56fhasdfgsad95'
 }
 ```
-- To finish, fill `ddns` entry of the config.json file with the URL of your Worker and the password you hashed above.
+- To finish, fill the `ddns` entry of the `command/config.json` file with the URL of your Worker and the password you hashed above.
 
 ### Proxy Setup
 
@@ -71,7 +71,7 @@ const AUTH = {
 - Save and assign it to the subdomain you created.
 - Generate a new certificate for the domain.
 - Save the certificate file on your computer. (Preferably on the projects data folder)
-- Fill the path of the cert and key files in the `config.json` file.
+- Fill the path of the cert and key files in the `server/config.json` file.
 
 
 ## Usage
