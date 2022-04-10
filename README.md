@@ -44,7 +44,7 @@ This part assumes you have your domain already setup with Cloudflare.
 ``SUBDOMAIN_ID_HERE`` with the ID of the A record.
 ``YOUR_EMAIL_HERE`` with your email address.
 ``YOUR_API_KEY_HERE`` with your Cloudflare API key.
-It hsould look something like this:
+It should look like this:
 ```JS
 const API = 'https://api.cloudflare.com/client/v4/' +
   'zones/6edsx0986s0dd7sf60s78dhf0sdfb/';
