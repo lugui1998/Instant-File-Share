@@ -30,6 +30,14 @@ npm run setup
 - You can change the port in the `config.json` file.
 - if you forward a port different than 80, you will need to change the `copy.js` file.
 
+## Advanced: Cloudflare Setup
+
+This part assumes you have your domain already setup with Cloudflare.
+
+### Setting up the DDNS
+
+- Create a Worker on your Cloudflare account with the contents of the script on ``/workers/ddns
+
 ## Usage
 
 Right click on any file and select "Copy Share URL".
