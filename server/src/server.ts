@@ -28,7 +28,7 @@ let localAPI: LocalAPI;
         db = new Low<Data>(adapter);
 
 
-        fileServer = new FileServer(Config.fileServer.port);
+        fileServer = new FileServer(Config.fileServer.port, Config.fileServer.cert, Config.fileServer.key);
         localAPI = new LocalAPI(Config.localAPI.port);
 
         // On Start, load files that should be served from db

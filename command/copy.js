@@ -7,7 +7,7 @@ const ipSource = `https://api.ipify.org/?format=text`;
 const localServerPort = 8021;
 
 const urlPort = 80;
-const customDomain = 'https://send.lugui.in'
+const customDomain = 'https://send.lugui.in';
 
 
 (async () => {

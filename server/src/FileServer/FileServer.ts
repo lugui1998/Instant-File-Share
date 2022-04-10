@@ -1,18 +1,31 @@
+import * as fs from 'fs';
 import express from 'express';
 import bodyParser from 'body-parser';
+import https from 'https';
 
 
 export default class FileServer {
     private app: express.Application;
     private _events = {};
 
-    constructor(port: number) {
+    constructor(port: number, certPath: string, keyPath: string) {
+
+        let options = {};
+        if(certPath && keyPath) {
+            options = {
+                cert: fs.readFileSync(certPath, 'utf8'),
+                key: fs.readFileSync(keyPath , 'utf8'),
+            };
+        }
+
         // express server with one GET route
         this.app = express();
         this.app.use(bodyParser.json());
-        this.app.listen(port, () => {
+
+        const server = https.createServer(options, this.app).listen(port, function(){
             console.log(`[File] Server listening on port ${port}.`);
-        });
+          });
+        
     }
 
     public serveFile(route: string, filePath: string) {
