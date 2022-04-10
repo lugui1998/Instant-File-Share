@@ -34,9 +34,14 @@ npm run setup
 
 This part assumes you have your domain already setup with Cloudflare.
 
-### Setting up the DDNS
+- Create a subdomain for your project (or not)
+- Set up a Worker with the contents of `workers/proxy.js`
+- Edit the Worker's hostname to include its url and port it is going to forward the requests.
+- Save it, assign to the domain or subdomain you created and enable it.
+- Generate a new certificate for the domain.
+- Save the certificate files on the project's directory (recommended to keep them in a separate directory such as `data/cert/`).
+- Fill the data of the cert and key files in the `config.json` file.
 
-- Create a Worker on your Cloudflare account with the contents of the script on ``/workers/ddns
 
 ## Usage
 
