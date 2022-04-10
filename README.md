@@ -2,7 +2,7 @@
 
 Instant File Share is a project that allows users to share files by generating a URL with a single click on the context menu of any file.
 
-It is a standalone solution which is focused on simplicity and ease of use and not on security (yet). Hence why it uses HTTP instead of HTTPS by default.
+It is a standalone solution which is focused on simplicity and ease of use.
 
 This works by setting up a http server on the local machine and then serving the file on a randomly generated route. Forwarding the port is necessary so requests to the generated URL are not blocked by the router.
 
@@ -37,6 +37,7 @@ The URL will be copied to your clipboard.
 
 ## TODO
 
-- Add support for Proxy.
-- Add supoort for HTTPS.
-- Add support for Cloudflare Workers proxy.
+- Add supoort for HTTPS. ✔️
+- Add support for Cloudflare Workers proxy. ✔️
+- Add support for third party web server Proxy.
+
