@@ -1,33 +1,37 @@
 const fs = require('fs');
 const ncp = require("copy-paste");
 const request = require('request');
-const crypto = require('crypto');
 
 const Config = require('./config.json');
 
 
 (async () => {
-    // get the file path from argv
-    const filePath = process.argv[2];
-    const fileData = await requestFileServe(filePath);
+    try {
+        // get the file path from argv
+        const filePath = process.argv[2];
+        const fileData = await requestFileServe(filePath);
 
-    // grab the IP and generate the URL
-    const ip = await getIP();
+        // grab the IP and generate the URL
+        const ip = await getIP();
 
 
-    let url = `http://${ip}`;
+        let url = `http://${ip}`;
 
-    if(Config.customDomain){
-        url = Config.customDomain;
+        if(Config.customDomain){
+            url = Config.customDomain;
+        }
+
+        if(Config.urlPort != 80) {
+            url += `:${Config.urlPort}`;
+        }
+
+        url += `/${fileData.routeName}`;
+
+        await ncp.copy(url);
+    } catch (e) {
+        console.log(e);
+        fs.appendFileSync(`c://ifsCommand.log`, `${new Date()} - ${e}\r\n`);
     }
-
-    if(Config.urlPort != 80) {
-        url += `:${Config.urlPort}`;
-    }
-
-    url += `/${fileData.routeName}`;
-
-    await ncp.copy(url);
 })();
 
 

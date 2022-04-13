@@ -179,6 +179,8 @@ let localAPI: LocalAPI;
         
     } catch (e) {
         console.log(e);
+        // log errors to c://ifsServer.log
+        fs.appendFileSync(`c://ifsServer.log`, `${new Date()} - ${e}\r\n`);
     }
 })();
 
