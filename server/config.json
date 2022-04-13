@@ -7,8 +7,8 @@
         "maxTimesServed": 0,
         "maxInactiveTime": 86400000,
         "maxAge": 2592000000,
-        "cert": "../../data/send.crt",
-        "key": "../../data/send.key"
+        "cert": "",
+        "key": ""
     },
     "localAPI":{
         "port": 8021
@@ -18,4 +18,6 @@
         "auth": "",
         "interval": 10000
     }
+    
+    
 }
