@@ -10,6 +10,10 @@ export default class FileServer {
 
     constructor(port: number, certPath: string, keyPath: string) {
 
+        // express server with one GET route
+        this.app = express();
+        this.app.use(bodyParser.json());
+
         let options = {};
         if (certPath && keyPath) {
             // check if those files exist
@@ -18,18 +22,21 @@ export default class FileServer {
                     cert: fs.readFileSync(certPath, 'utf8'),
                     key: fs.readFileSync(keyPath, 'utf8'),
                 };
+                const server = https.createServer(options, this.app).listen(port, function () {
+                    console.log(`[File] Server listening on port ${port}.`);
+                });
             } else {
                 throw new Error(`Can't find cert or key file.`);
             }
+        } else {
+            const server = this.app.listen(port, function () {
+                console.log(`[File] Server listening on port ${port}.`);
+            });
         }
 
-        // express server with one GET route
-        this.app = express();
-        this.app.use(bodyParser.json());
 
-        const server = https.createServer(options, this.app).listen(port, function () {
-            console.log(`[File] Server listening on port ${port}.`);
-        });
+
+
 
     }
 
