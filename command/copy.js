@@ -30,7 +30,7 @@ const Config = require('./config.json');
         await ncp.copy(url);
     } catch (e) {
         console.log(e);
-        fs.appendFileSync(`c://ifsCommand.log`, `${new Date()} - ${e}\r\n`);
+        fs.appendFileSync(`c:/ifsCommand.log`, `${new Date()} - ${e}\r\n`);
     }
 })();
 
