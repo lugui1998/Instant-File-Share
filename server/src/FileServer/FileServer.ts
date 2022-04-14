@@ -11,21 +11,26 @@ export default class FileServer {
     constructor(port: number, certPath: string, keyPath: string) {
 
         let options = {};
-        if(certPath && keyPath) {
-            options = {
-                cert: fs.readFileSync(certPath, 'utf8'),
-                key: fs.readFileSync(keyPath , 'utf8'),
-            };
+        if (certPath && keyPath) {
+            // check if those files exist
+            if (fs.existsSync(certPath) && fs.existsSync(keyPath)) {
+                options = {
+                    cert: fs.readFileSync(certPath, 'utf8'),
+                    key: fs.readFileSync(keyPath, 'utf8'),
+                };
+            } else {
+                throw new Error(`Can't find cert or key file.`);
+            }
         }
 
         // express server with one GET route
         this.app = express();
         this.app.use(bodyParser.json());
 
-        const server = https.createServer(options, this.app).listen(port, function(){
+        const server = https.createServer(options, this.app).listen(port, function () {
             console.log(`[File] Server listening on port ${port}.`);
-          });
-        
+        });
+
     }
 
     public serveFile(route: string, filePath: string) {
@@ -33,7 +38,7 @@ export default class FileServer {
         filePath = filePath.replace(/\\/g, '/');
         let fileName = filePath.split('/').pop();
 
-        if(fileName) {
+        if (fileName) {
             // remove characters that are not allowed in a header
             fileName = fileName.replace(/[^a-zA-Z0-9-_\.]/g, '');
 
@@ -53,7 +58,7 @@ export default class FileServer {
         });
 
         this.app.get(route, (req, res) => {
-            this.emit('requestFail', { route});
+            this.emit('requestFail', { route });
             res.status(410).send('Gone.');
         });
     }

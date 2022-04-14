@@ -34,7 +34,6 @@ const Config = require('./config.json');
     }
 })();
 
-
 function requestFileServe(filePath) {
     return new Promise((resolve, reject) => {
         request.post(
