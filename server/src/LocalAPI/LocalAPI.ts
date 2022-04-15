@@ -1,8 +1,14 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import Random from '../Utils/Random.js';
-import { db } from '../server.js';
+import request from 'request';
+import { db, Config } from '../server.js';
 
+export interface ServedFile {
+    routeName: string;
+    filePath: string;
+    url: string;
+}
 
 export default class FileServer {
     private app: express.Application;
@@ -20,39 +26,81 @@ export default class FileServer {
 
         // Add file
         this.app.post('/serve', async (req, res) => {
-            const body = req.body;
+            try {
+                const body = req.body;
 
-            await db.read();
-            db.data ||= { files: [] };
+                await db.read();
+                db.data ||= { files: [] };
 
-            // check if the file is alread served
-            const file = db.data.files.find((file) => file.filePath === body.filePath);
+                // check if the file is alread served
+                const file = db.data.files.find((file) => file.filePath === body.filePath);
 
-            if (file) {
-                res.send(JSON.stringify({
-                    routeName: file.routeName,
-                    filePath: file.filePath,
-                }, null, 2));
+                const fileServe: ServedFile = {
+                    routeName: '',
+                    filePath: '',
+                    url: ''
+                }
+
+                // if the file is already served, return the url
+                if (file) {
+                    fileServe.routeName = file.routeName;
+                    fileServe.filePath = file.filePath;
+                    fileServe.url = this.getURL(file.routeName);
+
+                    const responseJson = JSON.stringify(fileServe, null, 4);
+                    res.send(responseJson);
+                    return;
+                }
+
+                // if the file is not already served, create a new route
+
+                fileServe.routeName = Random.string(10);
+                fileServe.filePath = body.filePath;
+                fileServe.url = this.getURL(body.filePath);
+
+                const responseJson = JSON.stringify(fileServe, null, 4);
+                res.send(responseJson);
+
                 return;
+
+            } catch (error) {
+                res.status(500).send(error);
+                throw error;
             }
-
-            const routeName = Random.string(10);
-
-            const fileServe = {
-                routeName: routeName,
-                filePath: body.filePath
-            }
-
-            if (body.filePath) {
-                res.send(JSON.stringify(fileServe));
-                this.emit('serve', fileServe);
-                return;
-            }
-
-            // error
-            res.status(400).send('Bad request.');
         });
 
+    }
+
+    private getURL(routeName: string) {
+        let url = 'http://';
+
+        if (Config.localAPI.customDomain) {
+            url = Config.localAPI.customDomain;
+        } else {
+            url += this.getIP();
+        }
+
+        if (![80, 443].includes(Config.localAPI.urlPort)) {
+            url += `:${Config.localAPI.urlPort}`;
+        }
+
+        url += `/${routeName}`;
+
+        return url
+    }
+
+    public getIP() {
+        // get the IP from ipSource
+        // assumes it is plain text
+        return new Promise((resolve, reject) => {
+            request(Config.ipSource, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(body);
+                }
+            });
+        });
     }
 
     public on(name, listener) {

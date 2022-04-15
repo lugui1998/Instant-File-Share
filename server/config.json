@@ -11,7 +11,11 @@
         "key": "../data/crt/send.key"
     },
     "localAPI":{
-        "port": 8021
+        "port": 8021,
+        "urlPort": 80,
+        "ipSource": "https://api.ipify.org/?format=text",
+        "customDomain": ""
+        
     },
     "ddns": {
         "url": "",

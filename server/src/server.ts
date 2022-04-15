@@ -185,5 +185,6 @@ let localAPI: LocalAPI;
 
 export {
     db,
+    Config,
 }
 
