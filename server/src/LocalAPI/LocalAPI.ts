@@ -56,12 +56,12 @@ export default class FileServer {
 
                 fileServe.routeName = Random.string(10);
                 fileServe.filePath = body.filePath;
-                fileServe.url = this.getURL(body.filePath);
+                fileServe.url = this.getURL(fileServe.routeName);
 
                 const responseJson = JSON.stringify(fileServe, null, 4);
                 res.send(responseJson);
 
-                return;
+                this.emit('serve', fileServe);
 
             } catch (error) {
                 res.status(500).send(error);

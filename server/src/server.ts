@@ -62,13 +62,15 @@ let localAPI: LocalAPI;
         fileServer.serveFile(`${Config.fileServer.baseRoute}${routeName}`, filePath);
 
         // add the file to the database
-        db.data.files.push({
+        const fileData = {
             routeName: routeName,
             filePath: filePath,
             timesServed: 0,
             createdAt: new Date(),
             lastServedAt: new Date()
-        });
+        }
+        console.log(fileData);
+        db.data.files.push(fileData);
         await db.write();
 
         // watch the file. If it changes, stop serving it and remove it from the database
