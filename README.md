@@ -25,12 +25,13 @@ npm run setup
 ```
 
 - Forward port 80 on your router to port 1080 (or wharever port you set the config.json file). In case you want to use the Cloudflare setup with HTTPS, forward port 443 to 1443 instead.
-Using non default ports (80 and 443) will result in a URL that contains the port number. ``e.g. https://example.com:8080/file``
+
 
 ## Notes
 
-- You can change the port in the `server/config.json` file.
-- if you forward to a port than the default, you will need to change it on the `command/copy.js`` script
+- You can change the ports in the `server/config.json` file.
+- If you change the local API port you will need to change it on the `command/copy.js`` script.
+- Using ports othe rthan 80 and 443 will result in a URL that contains the port number. ``e.g. https://example.com:8080/file``
 
 ## Advanced: Cloudflare Setup
 
