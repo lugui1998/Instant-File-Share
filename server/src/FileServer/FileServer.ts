@@ -42,8 +42,7 @@ export default class FileServer {
             res.send('pong');
         });
 
-        this.app.get(`/`, (req, res) => { // this is lazy, but express do not change the URL
-            // res.send(`<script>window.location.href = "${Config.fileServer.rootRedirect}";</script>`);
+        this.app.get(`/`, (req, res) => {
             res.redirect(302, Config.fileServer.rootRedirect);
         });
 
