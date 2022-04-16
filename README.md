@@ -17,13 +17,15 @@ Multiple machines on the same network can use the system as long as they are run
 ## Installation on Windows
 
 - Before anything else be sure to have [Node.js](https://nodejs.org/en/) installed and running propperly.
+- Clone or download this repository to the directory you want to install it to.
 - Start a cmd terminal as **administrator** (needed for adding the registry key for the context menu entry), navigate to the project's directory and run the following command:
 
 ```
 npm run setup
 ```
 
-- Forward port 80 on your router to port 1080 (or wharever port yoou set the config.json file).
+- Forward port 80 on your router to port 1080 (or wharever port yoou set the config.json file). In case you want to use the Cloudflare setup with HTTPS, forward port 443 to 1443 instead.
+Using non default ports (80 and 443) will result in a URL that contains the port number. ``e.g. https://example.com:8080/file``
 
 ## Notes
 

@@ -15,7 +15,7 @@
         "port": 1021,
         "urlPort": 80,
         "ipSource": "https://api.ipify.org/?format=text",
-        "customDomain": ""
+        "customDomain": "https://send.lugui.in"
         
     },
     "ddns": {
