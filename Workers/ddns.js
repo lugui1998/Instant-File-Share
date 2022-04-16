@@ -60,8 +60,8 @@ async function updateIp(sub, id, ip) {
   await fetch(API + 'dns_records/' + id, {
     method: 'PUT',
     headers: {
-      'X-Auth-Email': auth.email,
-      'X-Auth-Key': auth.key,
+      'X-Auth-Email': AUTH.email,
+      'X-Auth-Key': AUTH.key,
       'Content-type': 'application/json',
     },
     body: JSON.stringify({
