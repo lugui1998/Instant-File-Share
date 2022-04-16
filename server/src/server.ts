@@ -28,8 +28,8 @@ let localAPI: LocalAPI;
     db = new Low<Data>(adapter);
 
 
-    fileServer = new FileServer(Config.fileServer.port, Config.fileServer.cert, Config.fileServer.key);
-    localAPI = new LocalAPI(Config.localAPI.port);
+    fileServer = new FileServer();
+    localAPI = new LocalAPI();
 
     // On Start, load files that should be served from db
     await db.read();
@@ -38,8 +38,6 @@ let localAPI: LocalAPI;
     db.data.files.forEach(file => {
         fileServer.serveFile(`${Config.fileServer.baseRoute}${file.routeName}`, file.filePath);
     });
-
-
 
     // API Requested a file to be served
     localAPI.on('serve', async (fileServe) => {
@@ -69,7 +67,6 @@ let localAPI: LocalAPI;
             createdAt: new Date(),
             lastServedAt: new Date()
         }
-        console.log(fileData);
         db.data.files.push(fileData);
         await db.write();
 

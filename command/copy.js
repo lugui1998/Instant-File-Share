@@ -2,7 +2,7 @@ const fs = require('fs');
 const ncp = require("copy-paste");
 const request = require('request');
 
-const localServerPort = 8021;
+const localServerPort = 1021;
 
 (async () => {
     try {

@@ -14,12 +14,12 @@ export default class FileServer {
     private app: express.Application;
     private _events = {};
 
-    constructor(port: number) {
+    constructor() {
         // express server with one GET route
         this.app = express();
         this.app.use(bodyParser.json());
-        this.app.listen(port, () => {
-            console.log(`[API] Server listening on port ${port}.`);
+        this.app.listen(Config.localAPI.port, () => {
+            console.log(`[API] Server listening on port ${Config.localAPI.port}.`);
         });
 
         /* Defune the routes */

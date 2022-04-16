@@ -3,40 +3,43 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import https from 'https';
 
+import { Config } from '../server.js';
 
 export default class FileServer {
     private app: express.Application;
     private _events = {};
 
-    constructor(port: number, certPath: string, keyPath: string) {
+    constructor() {
 
         // express server with one GET route
         this.app = express();
         this.app.use(bodyParser.json());
 
+        this.app.listen(Config.fileServer.port, function () {
+            console.log(`[File] Server listening on port ${Config.fileServer.port}.`);
+        });
+
         let options = {};
-        if (certPath && keyPath) {
+        if (Config.fileServer.cert && Config.fileServer.key) {
             // check if those files exist
-            if (fs.existsSync(certPath) && fs.existsSync(keyPath)) {
+            if (fs.existsSync(Config.fileServer.cert) && fs.existsSync(Config.fileServer.key)) {
                 options = {
-                    cert: fs.readFileSync(certPath, 'utf8'),
-                    key: fs.readFileSync(keyPath, 'utf8'),
+                    cert: fs.readFileSync(Config.fileServer.cert, 'utf8'),
+                    key: fs.readFileSync(Config.fileServer.key, 'utf8'),
                 };
-                const server = https.createServer(options, this.app).listen(port, function () {
-                    console.log(`[File] Server listening on port ${port}.`);
+
+                https.createServer(options, this.app).listen(Config.fileServer.httpsPort, () => {
+                    console.log(`[File] Server listening on port ${Config.fileServer.httpsPort}.`);
                 });
             } else {
-                throw new Error(`Can't find cert or key file.`);
+                console.log(`[File] Couldn't find cert or key files. HTTPS won't be available.`);
             }
-        } else {
-            const server = this.app.listen(port, function () {
-                console.log(`[File] Server listening on port ${port}.`);
-            });
         }
 
 
-
-
+        this.app.get(`/ping`, (req, res) => {
+            res.send('pong');
+        });
 
     }
 
@@ -45,11 +48,13 @@ export default class FileServer {
         filePath = filePath.replace(/\\/g, '/');
         let fileName = filePath.split('/').pop();
 
+        console.log(`[File] Serving file "${fileName}" at route "${route}".`);
+
         if (fileName) {
             // remove characters that are not allowed in a header
             fileName = fileName.replace(/[^a-zA-Z0-9-_\.]/g, '');
 
-            this.app.get(route, (req, res) => {
+            this.app.get(`${route}`, (req, res) => {
                 res.set('Content-disposition', `attachment; filename=${fileName}`);
                 res.sendFile(filePath);
                 this.emit('serve', { route, filePath, req });

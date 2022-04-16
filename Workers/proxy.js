@@ -9,7 +9,7 @@ addEventListener("fetch", (event) => {
   async function handleRequest(request) {
     const url = new URL(request.url);
     url.hostname = 'send.lugui.in';
-    url.port = 8020;
+    url.port = 1443;
   
     return fetch(url.href);
   }
