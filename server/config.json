@@ -9,7 +9,8 @@
         "maxInactiveTime": 86400000,
         "maxAge": 2592000000,
         "cert": "../data/crt/send.crt",
-        "key": "../data/crt/send.key"
+        "key": "../data/crt/send.key",
+        "contentDisposition": "inline"
     },
     "localAPI":{
         "port": 1021,

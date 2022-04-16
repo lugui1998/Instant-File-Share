@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import express from 'express';
 import bodyParser from 'body-parser';
 import https from 'https';
+import * as mime from 'mime-types'; 
 
 import { Config } from '../server.js';
 
@@ -54,8 +55,12 @@ export default class FileServer {
             // remove characters that are not allowed in a header
             fileName = fileName.replace(/[^a-zA-Z0-9-_\.]/g, '');
 
+            const fileExtension = fileName.split('.').pop();
+            const contentType = mime.lookup(fileExtension);
+
             this.app.get(`${route}`, (req, res) => {
-                res.set('Content-disposition', `attachment; filename=${fileName}`);
+                res.set('Content-disposition', `${Config.fileServer.contentDisposition}; filename=${fileName}`);
+                res.set('Content-type', contentType);
                 res.sendFile(filePath);
                 this.emit('serve', { route, filePath, req });
             });
