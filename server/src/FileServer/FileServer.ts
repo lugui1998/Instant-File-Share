@@ -42,6 +42,10 @@ export default class FileServer {
             res.send('pong');
         });
 
+        this.app.get(`/`, (req, res) => {
+            res.redirect(Config.fileServer.rootRedirect);
+        });
+
     }
 
     public serveFile(route: string, filePath: string) {
@@ -60,7 +64,7 @@ export default class FileServer {
 
             this.app.get(`${route}`, (req, res) => {
                 res.set('Content-disposition', `${Config.fileServer.contentDisposition}; filename=${fileName}`);
-                res.set('Content-type', contentType);
+                res.set('Content-type', contentType ? contentType : 'application/octet-stream');
                 res.sendFile(filePath);
                 this.emit('serve', { route, filePath, req });
             });

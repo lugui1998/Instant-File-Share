@@ -10,7 +10,9 @@
         "maxAge": 2592000000,
         "cert": "../data/crt/send.crt",
         "key": "../data/crt/send.key",
-        "contentDisposition": "inline"
+        "contentDisposition": "inline",
+        "rootRedirect": "https://github.com/lugui1998/Instant-File-Share"
+        
     },
     "localAPI":{
         "port": 1021,
