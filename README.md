@@ -2,11 +2,11 @@
 
 Instant File Share is a project that allows users to share files by generating a URL with a single click on the context menu of any file.
 
-It is a standalone solution which is focused on simplicity and ease of use.
+It is a standalone solution which is focused on simplicity and ease of use intended to creating temporary links for files on your machine. It is not intended to be used for generating permanent links.
 
 This works by setting up a http server on the local machine and then serving the file on a randomly generated route. Forwarding the port is necessary so requests to the generated URL are not blocked by the router.
 
-
+Multiple machines on the same network can use the system as long as they are running it on different ports.
 
 ## Requirements
 
@@ -23,12 +23,12 @@ This works by setting up a http server on the local machine and then serving the
 npm run setup
 ```
 
-- Forward port 80 on your router to port 8020
+- Forward port 80 on your router to port 1080 (or wharever port yoou set the config.json file).
 
 ## Notes
 
 - You can change the port in the `server/config.json` file.
-- if you forward a port different than 80, you will need to change the `command/config.json` file.
+- if you forward to a port than the default, you will need to change it on the `command/copy.js`` script
 
 ## Advanced: Cloudflare Setup
 
