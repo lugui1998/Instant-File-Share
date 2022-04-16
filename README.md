@@ -30,7 +30,7 @@ npm run setup
 ## Notes
 
 - You can change the ports in the `server/config.json` file.
-- If you change the local API port you will need to change it on the `command/copy.js`` script.
+- If you change the local API port you will need to change it on the `command/copy.js` script.
 - Using ports othe rthan 80 and 443 will result in a URL that contains the port number. ``e.g. https://example.com:8080/file``
 
 ## Advanced: Cloudflare Setup
