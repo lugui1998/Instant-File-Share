@@ -2,9 +2,9 @@
 
 Instant File Share is a project that allows users to share files by generating a URL with a single click on the context menu of any file.
 
-It is a standalone solution which is focused on simplicity and ease of use intended to creating temporary links for files on your machine. It is not intended to be used for generating permanent links.
+It is a standalone solution which is focused on simplicity and ease of use, intended to creating temporary links for files on your machine and not for generating permanent links.
 
-This works by setting up a http server on the local machine and then serving the file on a randomly generated route. Forwarding the port is necessary so requests to the generated URL are not blocked by the router.
+This works by setting up a http server on the local machine and then serving the file on a randomly generated route. Forwarding ports is necessary so requests to the generated URL are not blocked by the router.
 
 Multiple machines on the same network can use the system as long as they are running it on different ports.
 
