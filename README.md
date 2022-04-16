@@ -24,7 +24,7 @@ Multiple machines on the same network can use the system as long as they are run
 npm run setup
 ```
 
-- Forward port 80 on your router to port 1080 (or wharever port yoou set the config.json file). In case you want to use the Cloudflare setup with HTTPS, forward port 443 to 1443 instead.
+- Forward port 80 on your router to port 1080 (or wharever port you set the config.json file). In case you want to use the Cloudflare setup with HTTPS, forward port 443 to 1443 instead.
 Using non default ports (80 and 443) will result in a URL that contains the port number. ``e.g. https://example.com:8080/file``
 
 ## Notes
