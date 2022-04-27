@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "build:install": "npm ci & npm run build & npx pm2 delete instant-file-share & npx pm2 start ./dist/server.js --name instant-file-share --interpreter=node --watch",
+    "build:install": "npm ci & npm run build & pm2 delete instant-file-share & pm2 start ./dist/server.js --name instant-file-share --interpreter=node --watch",
     "build": "npx tsc",
     "start:dev": "npx tsc & nodemon ./dist/server.js"
   },

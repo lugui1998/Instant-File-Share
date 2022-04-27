@@ -16,4 +16,4 @@ npm i -g pm2
 :: Create startup script
 echo cd /d "%mypath%" > "C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\ifs.bat"
 echo cd server >> "C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\ifs.bat"
-echo npx pm2 start dist/server.js --name instant-file-share --interpreter=node --watch >> "C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\ifs.bat"
+echo pm2 start dist/server.js --name instant-file-share --interpreter=node --watch >> "C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\ifs.bat"
