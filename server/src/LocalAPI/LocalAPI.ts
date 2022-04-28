@@ -45,7 +45,7 @@ export default class FileServer {
                 if (file) {
                     fileServe.routeName = file.routeName;
                     fileServe.filePath = file.filePath;
-                    fileServe.url = this.getURL(file.routeName);
+                    fileServe.url = await this.getURL(file.routeName);
 
                     const responseJson = JSON.stringify(fileServe, null, 4);
                     res.send(responseJson);
@@ -56,7 +56,7 @@ export default class FileServer {
 
                 fileServe.routeName = Random.string(10);
                 fileServe.filePath = body.filePath;
-                fileServe.url = this.getURL(fileServe.routeName);
+                fileServe.url = await this.getURL(fileServe.routeName);
 
                 const responseJson = JSON.stringify(fileServe, null, 4);
                 res.send(responseJson);
@@ -71,13 +71,13 @@ export default class FileServer {
 
     }
 
-    private getURL(routeName: string) {
+    private async getURL(routeName: string) {
         let url = 'http://';
 
         if (Config.localAPI.customDomain) {
             url = Config.localAPI.customDomain;
         } else {
-            url += this.getIP();
+            url += await this.getIP();
         }
 
         if (![80, 443].includes(Config.localAPI.urlPort)) {
