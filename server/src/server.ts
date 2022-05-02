@@ -106,7 +106,7 @@ let localAPI: LocalAPI;
         db.data ||= { files: [] };
 
         // get the request IP
-        const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        const ip = req.headers['cf-connecting-ip'] || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
         console.log(`[FileServer] ${ip} requested ${route} - ${filePath}`);
 

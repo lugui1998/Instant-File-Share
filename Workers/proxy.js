@@ -8,10 +8,13 @@ addEventListener("fetch", (event) => {
 
 async function handleRequest(request) {
   const url = new URL(request.url);
-  url.hostname = 'send.lugui.in';
+  url.host = 'send.lugui.in';
   url.port = 1443;
 
-  return await fetch(url.href, {
-    redirect: 'manual'
+  return await fetch(url.toString(), {
+    headers: headers,
+    method: request.method,
+    body: request.body,
+    redirect: 'manual',
   });
 }
