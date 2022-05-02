@@ -41,6 +41,9 @@ export default class FileServer {
                     url: ''
                 }
 
+                // get the file extension
+                const fileExtension = body.filePath.split('.').pop();
+
                 // if the file is already served, return the url
                 if (file) {
                     fileServe.routeName = file.routeName;
@@ -55,6 +58,7 @@ export default class FileServer {
                 // if the file is not already served, create a new route
 
                 fileServe.routeName = Random.string(10);
+                fileServe.routeName = fileExtension ? fileServe.routeName + '.' + fileExtension : fileServe.routeName;
                 fileServe.filePath = body.filePath;
                 fileServe.url = await this.getURL(fileServe.routeName);
 
@@ -86,7 +90,7 @@ export default class FileServer {
 
         url += `/${routeName}`;
 
-        return url
+        return url;
     }
 
     public getIP() {
