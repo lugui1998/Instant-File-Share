@@ -72,7 +72,7 @@ let localAPI: LocalAPI;
 
         // watch the file. If it changes, stop serving it and remove it from the database
         fs.watch(filePath, async (eventType, filename) => {
-            console.log(`[API] File "${filePath}" changed.`);
+            console.log(`[API] File "${filePath}" ${eventType}.`);
             await db.read();
             db.data ||= { files: [] };
 
@@ -125,6 +125,11 @@ let localAPI: LocalAPI;
 
         await db.write();
 
+    });
+
+    fileServer.on('notFound', async (fileServe) => {
+        // remove route
+        fileServer.removeRoute(fileServe.route);
     });
 
     // clean up files

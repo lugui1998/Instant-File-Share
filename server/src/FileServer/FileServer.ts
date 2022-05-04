@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import express from 'express';
 import bodyParser from 'body-parser';
 import https from 'https';
-import * as mime from 'mime-types'; 
+import * as mime from 'mime-types';
 
 import { Config } from '../server.js';
 
@@ -63,10 +63,16 @@ export default class FileServer {
             const contentType = mime.lookup(fileExtension);
 
             this.app.get(`${route}`, (req, res) => {
-                res.set('Content-disposition', `${Config.fileServer.contentDisposition}; filename=${fileName}`);
-                res.set('Content-type', contentType ? contentType : 'application/octet-stream');
-                res.sendFile(filePath);
-                this.emit('serve', { route, filePath, req });
+                // checks if the file exists
+                if (fs.existsSync(filePath)) {
+                    res.set('Content-disposition', `${Config.fileServer.contentDisposition}; filename=${fileName}`);
+                    res.set('Content-type', contentType ? contentType : 'application/octet-stream');
+                    res.sendFile(filePath);
+                    this.emit('serve', { route, filePath, req });
+                } else {
+                    res.status(404).send('Not found.');
+                    this.emit('notFound', { route, filePath, req });
+                }
             });
         }
     }
@@ -82,6 +88,8 @@ export default class FileServer {
             this.emit('requestFail', { route });
             res.status(410).send('Gone.');
         });
+
+        console.log(`[File] Removed route "${route}".`);
     }
 
 
