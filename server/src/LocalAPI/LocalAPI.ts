@@ -84,6 +84,8 @@ export default class FileServer {
             url += await this.getIP();
         }
 
+        console.log(url);
+
         if (![80, 443].includes(Config.localAPI.urlPort)) {
             url += `:${Config.localAPI.urlPort}`;
         }
@@ -97,7 +99,7 @@ export default class FileServer {
         // get the IP from ipSource
         // assumes it is plain text
         return new Promise((resolve, reject) => {
-            request(Config.ipSource, (error, response, body) => {
+            request(Config.localAPI.ipSource, (error, response, body) => {
                 if (error) {
                     reject(error);
                 } else {
