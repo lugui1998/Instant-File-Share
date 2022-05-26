@@ -1,12 +1,13 @@
 {
   "name": "instant-file-share",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Generate a URL for any file on your machine.",
   "main": "index.js",
   "scripts": {
     "setup": "npm run setup:server & npm run setup:command",
     "setup:server": "cd server & npm run build:install & cd ..",
-    "setup:command": ".\\setup.bat & cd command & npm ci"
+    "setup:command": ".\\setup.bat & cd command & npm ci",
+    "update": "git reset --hard && git pull && npm run setup"
   },
   "repository": {
     "type": "git",
