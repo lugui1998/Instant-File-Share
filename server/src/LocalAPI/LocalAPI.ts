@@ -4,6 +4,8 @@ import Random from '../Utils/Random.js';
 import request from 'request';
 import { db, Config } from '../server.js';
 
+import ip from 'ip';
+
 export interface ServedFile {
     routeName: string;
     filePath: string;
@@ -78,10 +80,14 @@ export default class FileServer {
     private async getURL(routeName: string) {
         let url = 'http://';
 
-        if (Config.localAPI.customDomain) {
-            url = Config.localAPI.customDomain;
+        if (Config.fileServer.localOnly) {
+            url += `${ip.address()}:${Config.fileServer.port}`;
         } else {
-            url += await this.getIP();
+            if (Config.localAPI.customDomain) {
+                url = Config.localAPI.customDomain;
+            } else {
+                url += await this.getIP();
+            }
         }
 
         console.log(url);
