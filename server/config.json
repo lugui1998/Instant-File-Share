@@ -11,8 +11,7 @@
         "cert": "",
         "key": "",
         "contentDisposition": "inline",
-        "rootRedirect": "https://github.com/lugui1998/Instant-File-Share",
-        "localOnly": false
+        "rootRedirect": "https://github.com/lugui1998/Instant-File-Share"
     },
     "localAPI":{
         "port": 1021,
@@ -25,7 +24,5 @@
         "url": "",
         "auth": "",
         "interval": 10000
-    }
-    
-    
+    }   
 }
