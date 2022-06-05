@@ -18,5 +18,10 @@
   "bugs": {
     "url": "https://github.com/lugui1998/Instant-File-Share/issues"
   },
-  "homepage": "https://github.com/lugui1998/Instant-File-Share#readme"
+  "homepage": "https://github.com/lugui1998/Instant-File-Share#readme",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^3.11.0",
+    "typescript": "^4.7.3",
+    "wrangler": "^2.0.6"
+  }
 }
