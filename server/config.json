@@ -8,8 +8,8 @@
         "maxTimesServed": 0,
         "maxInactiveTime": 86400000,
         "maxAge": 2592000000,
-        "cert": "../data/crt/send.crt",
-        "key": "../data/crt/send.key",
+        "cert": "",
+        "key": "",
         "contentDisposition": "inline",
         "rootRedirect": "https://github.com/lugui1998/Instant-File-Share"
     },
@@ -17,7 +17,7 @@
         "port": 1021,
         "urlPort": 80,
         "ipSource": "https://api.ipify.org/?format=text",
-        "customDomain": "https://send.lugui.in"
+        "customDomain": ""
         
     },
     "ddns": {
