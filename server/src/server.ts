@@ -71,26 +71,31 @@ let localAPI: LocalAPI;
         await db.write();
 
         // watch the file. If it changes, stop serving it and remove it from the database
+
         fs.watch(filePath, async (eventType, filename) => {
-            console.log(`[API] File "${filePath}" ${eventType}.`);
-            await db.read();
-            db.data ||= { files: [] };
+            // on delete
+            if (eventType === 'rename') {
 
-            const file = db.data.files.find((file) => file.filePath === filePath);
+                console.log(`[API] File "${filePath}" ${eventType}.`);
+                await db.read();
+                db.data ||= { files: [] };
 
-            if (!file) {
-                return;
+                const file = db.data.files.find((file) => file.filePath === filePath);
+
+                if (!file) {
+                    return;
+                }
+
+                // stop serving the file
+                fileServer.removeRoute(`${Config.fileServer.baseRoute}${file.routeName}`);
+
+                // remove the file from the database
+                db.data.files = db.data.files.filter((file) => file.filePath !== filePath);
+                await db.write();
+
+                // if the file is deleted, it doens't need to be watched anymore
+                fs.unwatchFile(filePath);
             }
-
-            // stop serving the file
-            fileServer.removeRoute(`${Config.fileServer.baseRoute}${file.routeName}`);
-
-            // remove the file from the database
-            db.data.files = db.data.files.filter((file) => file.filePath !== filePath);
-            await db.write();
-
-            // if the file is deleted, it doens't need to be watched anymore
-            fs.unwatchFile(filePath);
 
         });
 
