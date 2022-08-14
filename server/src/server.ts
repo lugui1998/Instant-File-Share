@@ -49,9 +49,9 @@ let localAPI: LocalAPI;
 
 
         // check if the file is alread served
-        const isServed = db.data.files.find((file) => file.filePath === filePath);
+        const file = db.data.files.find((file) => file.filePath.replace(/\\/g, '/') === filePath.replace(/\\/g, '/'));
 
-        if (isServed) {
+        if (file) {
             console.log(`[API] File "${filePath}" is already served.`);
             return;
         }
@@ -80,7 +80,7 @@ let localAPI: LocalAPI;
                 await db.read();
                 db.data ||= { files: [] };
 
-                const file = db.data.files.find((file) => file.filePath === filePath);
+                const file = db.data.files.find((file) => file.filePath.replace(/\\/g, '/') === filePath.replace(/\\/g, '/'));
 
                 if (!file) {
                     return;
@@ -116,7 +116,6 @@ let localAPI: LocalAPI;
         console.log(`[FileServer] ${ip} requested ${route} - ${filePath}`);
 
         // find the file entry in the database
-        // the filePath and the database entry may not have consistent slashes
         const file = db.data.files.find((file) => file.filePath.replace(/\\/g, '/') === filePath.replace(/\\/g, '/'));
 
         if (file) {
