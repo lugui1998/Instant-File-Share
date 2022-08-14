@@ -115,8 +115,10 @@ let localAPI: LocalAPI;
 
         console.log(`[FileServer] ${ip} requested ${route} - ${filePath}`);
 
-        // update the file's times served
-        const file = db.data.files.find((file) => file.filePath === filePath);
+        // find the file entry in the database
+        // the filePath and the database entry may not have consistent slashes
+        const file = db.data.files.find((file) => file.filePath.replace(/\\/g, '/') === filePath.replace(/\\/g, '/'));
+
         if (file) {
             file.timesServed++;
             file.lastServedAt = new Date();

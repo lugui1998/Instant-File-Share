@@ -16,5 +16,4 @@ echo cd /d "%mypath%" > "C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Windows\S
 echo cd server >> "C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\ifs.bat"
 echo pm2 start dist/server.js --name instant-file-share --interpreter=node --watch >> "C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\ifs.bat"
 
-
 npm i -g pm2
