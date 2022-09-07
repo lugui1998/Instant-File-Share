@@ -11,9 +11,9 @@
         "cert": "",
         "key": "",
         "homePage": "./uploadPage/index.html",
-        "uploadDir": "./uploads",
+        "uploadDir": "./downloads",
         "contentDisposition": "inline",
-        "rootUploadPage": true,
+        "rootUploadPage": false,
         "rootRedirect": "https://github.com/lugui1998/Instant-File-Share"
     },
     "localAPI":{
