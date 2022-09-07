@@ -115,6 +115,10 @@ let localAPI: LocalAPI;
 
     });
 
+    localAPI.on('toggleUpload', (e) => {
+        fileServer.setAllowUpload(!fileServer.uploadEnabled);
+    });
+
     fileServer.on('serve', async (fileServe) => {
         const route = fileServe.route;
         const filePath = fileServe.filePath;

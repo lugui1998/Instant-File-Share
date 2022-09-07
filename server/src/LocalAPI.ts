@@ -22,7 +22,7 @@ export default class FileServer {
             console.log(`[API] Server listening on port ${Config.localAPI.port}.`);
         });
 
-        /* Defune the routes */
+        /* Define the routes */
 
         // Add file
         this.app.post('/serve', async (req, res) => {
@@ -71,6 +71,11 @@ export default class FileServer {
                 res.status(500).send(error);
                 throw error;
             }
+        });
+
+        this.app.get('/toggleUpload', async (req, res) => {
+            this.emit('toggleUpload', null);
+            res.send('ok');
         });
 
     }
