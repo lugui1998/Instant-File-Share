@@ -83,7 +83,7 @@ export default class FileServer {
 
             // get the IP address of the client
             // the IP may cvome from cloudflare
-            let ip = req.headers['cf-connecting-ip']?.toString() || req.headers['x-forwarded-for']?.toString() || 'unknown';
+            let ip = req.headers['cf-connecting-ip']?.toString() || req.headers['x-forwarded-for']?.toString() || req.ip || 'unknown';
 
             // remove the ::ffff: from the IP address
             ip = ip.replace('::ffff:', '');
@@ -114,6 +114,8 @@ export default class FileServer {
                     i++;
                 }
             }
+
+            console.log(`Received file "${fileName}" from ${ip}.`);
 
             // save the file
             file.mv(`${ipFolder}/${fileName}`, function (err) {
