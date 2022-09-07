@@ -49,6 +49,8 @@ let localAPI: LocalAPI;
         fileServer.serveFile(`${Config.fileServer.baseRoute}${file.routeName}`, file.filePath);
     });
 
+    fileServer.setAllowUpload(Config.fileServer.rootUploadPage);
+
     db.data.files = files;
     await db.write();
 

@@ -11,7 +11,7 @@ export interface ServedFile {
 }
 
 export default class FileServer {
-    private app: express.Application;
+    private app: any;
     private _events = {};
 
     constructor() {

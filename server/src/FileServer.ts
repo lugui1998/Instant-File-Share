@@ -9,7 +9,7 @@ import * as mime from 'mime-types';
 import { Config } from './server.js';
 
 export default class FileServer {
-    private app: express.Application;
+    private app: any;
     private _events = {};
 
     private allowUpload = false;
@@ -24,11 +24,6 @@ export default class FileServer {
         this.app.use(fileUpload({
             createParentPath: true
         }));
-
-
-        this.app.listen(Config.fileServer.port, function () {
-            console.log(`[File] Server listening on port ${Config.fileServer.port}.`);
-        });
 
 
         let options = {};
@@ -48,27 +43,26 @@ export default class FileServer {
             }
         }
 
+        this.app.listen(Config.fileServer.port, function () {
+            console.log(`[File] Server listening on port ${Config.fileServer.port}.`);
+        });
+
 
         this.app.get(`/ping`, (req, res) => {
             res.send('pong');
         });
-
-
-
-
-        this.setAllowUpload(Config.fileServer.rootUploadPage);
     }
 
     public setAllowUpload(allowUpload: boolean) {
         this.allowUpload = allowUpload;
 
-        if (allowUpload) {
+        if (this.allowUpload) {
             this.app._router.stack.forEach((middleware, index, stack) => {
                 if (middleware.route && ['/', '/upload'].includes(middleware.route.path)) {
                     stack.splice(index, 1);
                 }
             });
-            console.log(`[File] Upload enabled.`);
+            
             this.app.get(`/`, (req, res) => {
                 // convert Config.fileServer.homePageDir to an absolute path base on the current working directory
                 const homePage = `${process.cwd()}/${Config.fileServer.homePage}`;
@@ -77,15 +71,15 @@ export default class FileServer {
             this.app.post(`/upload`, (req, res) => {
                 this.handleUpload(req, res);
             });
+            console.log(`[File] Upload enabled.`);
         } else {
-
             this.app._router.stack.forEach((middleware, index, stack) => {
                 if (middleware.route && ['/', '/upload'].includes(middleware.route.path)) {
                     stack.splice(index, 1);
                 }
             });
 
-            console.log(`[File] Upload disabled.`);
+            
             this.app.get(`/`, (req, res) => {
                 if (Config.fileServer.rootRedirect) {
                     res.redirect(302, Config.fileServer.rootRedirect);
@@ -98,6 +92,7 @@ export default class FileServer {
             this.app.post(`/upload`, (req, res) => {
                 res.status(403).send('Forbidden');
             });
+            console.log(`[File] Upload disabled.`);
         }
     }
 
