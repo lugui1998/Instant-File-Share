@@ -3,7 +3,9 @@
   "scripts": {
     "build:install": "npm ci & npm run build & pm2 delete instant-file-share & pm2 start ./dist/server.js --name instant-file-share --interpreter=node --watch",
     "build": "npx tsc",
-    "start:dev": "npx tsc & nodemon ./dist/server.js"
+    "start:build": "tsc -w",
+    "start:run": "nodemon ./dist/server.js",
+    "dev": "concurrently npm:start:*"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
