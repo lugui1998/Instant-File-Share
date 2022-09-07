@@ -1,10 +1,12 @@
 import * as fs from 'fs';
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
+import fileUpload from 'express-fileupload';
 import https from 'https';
 import * as mime from 'mime-types';
 
-import { Config } from '../server.js';
+import { Config } from './server.js';
 
 export default class FileServer {
     private app: express.Application;
@@ -14,11 +16,18 @@ export default class FileServer {
 
         // express server with one GET route
         this.app = express();
+        this.app.use(cors());
         this.app.use(bodyParser.json());
+
+        this.app.use(fileUpload({
+            createParentPath: true
+        }));
+
 
         this.app.listen(Config.fileServer.port, function () {
             console.log(`[File] Server listening on port ${Config.fileServer.port}.`);
         });
+
 
         let options = {};
         if (Config.fileServer.cert && Config.fileServer.key) {
@@ -42,11 +51,84 @@ export default class FileServer {
             res.send('pong');
         });
 
+
         this.app.get(`/`, (req, res) => {
-            res.redirect(302, Config.fileServer.rootRedirect);
+            if (Config.fileServer.rootUploadPage) {
+                // convert Config.fileServer.homePageDir to an absolute path base on the current working directory
+                const homePage = `${process.cwd()}/${Config.fileServer.homePage}`;
+                res.sendFile(homePage);
+                return;
+            }
+
+            if (Config.fileServer.rootRedirect) {
+                res.redirect(302, Config.fileServer.rootRedirect);
+                return;
+            }
+
+            res.status(404).send('Not found.');
+
+        });
+
+        this.app.post(`/upload`, (req, res) => {
+            if (!req.files) {
+                res.status(400).send('No files were uploaded.');
+                return;
+            }
+
+            // TO-DO handle multiple files
+            if (req.files.files instanceof Array) {
+                res.status(400).send('Only one file can be uploaded at a time.');
+                return;
+            }
+
+            // get the IP address of the client
+            // the IP may cvome from cloudflare
+            let ip = req.headers['cf-connecting-ip']?.toString() || req.headers['x-forwarded-for']?.toString() || 'unknown';
+
+            // remove the ::ffff: from the IP address
+            ip = ip.replace('::ffff:', '');
+
+            // if it is ipv6 remove invlaid characters for file names
+            if (ip.includes(':')) {
+                ip = ip.replace(/[^a-zA-Z0-9-_\.]/g, '');
+            }
+
+            // create a folder for the IP address
+            const ipFolder = `${Config.fileServer.uploadDir}/${ip}`;
+            if (!fs.existsSync(ipFolder)) {
+                fs.mkdirSync(ipFolder);
+            }
+
+            // get the file
+            const file = req.files.files;
+
+            // get the file name
+            let fileName = file.name;
+
+            // check if the file already exists
+            if (fs.existsSync(`${ipFolder}/${fileName}`)) {
+                // if it does, add a number to the end of the file name
+                let i = 1;
+                while (fs.existsSync(`${ipFolder}/${fileName}`)) {
+                    fileName = `${i}-${file.name}`;
+                    i++;
+                }
+            }
+
+            // save the file
+            file.mv(`${ipFolder}/${fileName}`, function (err) {
+                if (err) {
+                    res.status(500).send(err);
+                    return;
+                }
+
+                res.send('File uploaded!');
+            });
         });
 
     }
+
+
 
     public serveFile(route: string, filePath: string) {
         // replace "\\ and \\" with "/"

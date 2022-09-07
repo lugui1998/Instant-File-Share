@@ -1,0 +1,134 @@
+<html>
+
+<head>
+  <title>Instant File Upload</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<style>
+  body {
+    background-color: #1f1f1f;
+    font-family: sans-serif;
+    margin: 0;
+  }
+
+  #uploadArea {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #uploadAreaInner {
+    width: 60%;
+    height: 60%;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #uploadAreaText {
+    color: #fff;
+    font-size: 2rem;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  #uploadAreaButton {
+    background-color: #fff;
+    color: #1f1f1f;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 10px;
+    padding: 1rem 2rem;
+    margin: 1rem;
+    cursor: pointer;
+  }
+
+  #uploadAreaInput {
+    display: none;
+  }
+</style>
+
+<body>
+  <div id="uploadArea">
+    <div id="uploadAreaInner">
+      <div id="uploadAreaText">Send something to me!</div>
+      <div id="uploadAreaButton">Browse</div>
+      <input type="file" id="uploadAreaInput" multiple>
+    </div>
+  </div>
+</body>
+
+<script>
+  const uploadArea = document.getElementById("uploadArea");
+  const uploadAreaInner = document.getElementById("uploadAreaInner");
+  const uploadAreaText = document.getElementById("uploadAreaText");
+  const uploadAreaButton = document.getElementById("uploadAreaButton");
+  const uploadAreaInput = document.getElementById("uploadAreaInput");
+
+  uploadAreaInput.addEventListener("change", uploadFiles);
+
+  uploadArea.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    uploadAreaInner.style.border = "2px solid #aaa";
+  });
+
+  uploadArea.addEventListener("dragleave", () => {
+    uploadAreaInner.style.border = "2px solid #fff";
+  });
+
+  uploadArea.addEventListener("drop", (e) => {
+    e.preventDefault();
+    uploadAreaInner.style.border = "2px solid #fff";
+    uploadFiles(e);
+  });
+
+  uploadAreaButton.addEventListener("click", () => {
+    uploadAreaInput.click();
+  });
+
+  function uploadFiles(e) {
+    const files = e.target.files || e.dataTransfer.files;
+    const formData = new FormData();
+
+    if (files.length) {
+      uploadAreaText.innerText = "Uploading files...";
+    }
+
+    for (let i = 0; i < files.length; i++) {
+      formData.append("files", files[i]);
+    }
+
+    // Upload to server
+    const xhr = new XMLHttpRequest();
+  
+    // use the .upload property to track the progress of the upload
+    xhr.upload.addEventListener("progress", (e) => {
+      // current / total in MB
+      const progressStr = `${(e.loaded / 1024 / 1024).toFixed(2)} / ${(e.total / 1024 / 1024).toFixed(2)} MB`;
+      const percent = Math.round((e.loaded / e.total) * 100);
+      uploadAreaText.innerText = `Uploading files... ${progressStr} (${percent}%)`;
+    });
+
+    xhr.onerror = (e) => {
+      console.log(e);
+      uploadAreaText.innerText = "Error uploading files";
+    };
+
+    xhr.onload = () => {
+      uploadAreaText.innerText = "Files uploaded successfully";
+    };
+
+    xhr.open("POST", "upload");
+    xhr.send(formData);
+
+  }
+</script>
+
+</html>

@@ -9,22 +9,12 @@ async function handleRequest(request) {
   newURL.host = 'send.lugui.in';
   newURL.port = 1443;
 
-  let cache = caches.default;
-  const cachedResponse = await cache.match(request);
-  if (cachedResponse) {
-    return cachedResponse;
-  }
-
   let response = await fetch(newURL.toString(), {
     method: request.method,
     body: request.body,
+    headers: request.headers,
     redirect: 'manual',
   });
-
-  // cache the response if is is an image
-  if (response.headers.get('content-type').startsWith('image/')) {
-    cache.put(request, response.clone());
-  }
 
   response = new Response(response.body, response);
 

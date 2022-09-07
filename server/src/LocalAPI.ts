@@ -1,8 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import Random from '../Utils/Random.js';
+import Random from './Utils/Random.js';
 import request from 'request';
-import { db, Config } from '../server.js';
+import { db, Config } from './server.js';
 
 export interface ServedFile {
     routeName: string;

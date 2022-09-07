@@ -2,8 +2,8 @@ import * as fs from 'fs';
 import { Low, JSONFile } from 'lowdb';
 import axios from 'axios';
 
-import FileServer from './FileServer/FileServer.js';
-import LocalAPI from './LocalAPI/LocalAPI.js';
+import FileServer from './FileServer.js';
+import LocalAPI from './LocalAPI.js';
 
 const Config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
 
@@ -35,9 +35,22 @@ let localAPI: LocalAPI;
     await db.read();
     db.data ||= { files: [] };
     await db.write();
+
+    const files: any[] = [];
     db.data.files.forEach(file => {
+        // check if the file exists
+        if (!fs.existsSync(file.filePath)) {
+            console.log(`[DB] File ${file.filePath} does not exist. Removing from database.`);
+            return;
+        }
+
+        files.push(file);
+
         fileServer.serveFile(`${Config.fileServer.baseRoute}${file.routeName}`, file.filePath);
     });
+
+    db.data.files = files;
+    await db.write();
 
     // API Requested a file to be served
     localAPI.on('serve', async (fileServe) => {
